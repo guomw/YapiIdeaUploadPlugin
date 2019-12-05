@@ -8,6 +8,7 @@
 
 ### 使用方式：
 .idea/misc.xml 文件中 添加以下配置
+````
 <!--yapi配置-->
 <component name="yapi">
   <option name="projectToken">yapi项目token</option>
@@ -15,3 +16,4 @@
   <option name="yapiUrl">http://yapi.xxxx.com</option>
   <option name="projectType">api</option>
 </component>
+````
