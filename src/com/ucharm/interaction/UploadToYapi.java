@@ -31,12 +31,14 @@ import com.ucharm.upload.UploadYapi;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 /**
  * @description: 入口
- * @author: chengsheng@qbb6.com
+ * @modify: guomwchen@foxmail.com
  * @date: 2019/5/15
+ * @modifyDate 2019/12/05
  */
 public class UploadToYapi extends AnAction {
 
@@ -52,10 +54,6 @@ public class UploadToYapi extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent e) {
         Project project = e.getDataContext().getData(PlatformDataKeys.PROJECT);
-        if (project != null) {
-        }
-//        Editor editor = e.getDataContext().getData(CommonDataKeys.EDITOR);
-//        Project project = editor.getProject();
         String projectToken = null;
         String projectId = null;
         String yapiUrl = null;
@@ -128,16 +126,19 @@ public class UploadToYapi extends AnAction {
                         // 上传
                         YapiResponse yapiResponse = new UploadYapi().uploadSave(yapiSaveParam, null, project.getBasePath());
                         if (yapiResponse.getErrcode() != 0) {
-                            Notification error = notificationGroup.createNotification("sorry ,upload api error cause:" + yapiResponse.getErrmsg(), NotificationType.ERROR);
+                            String message = MessageFormat.format("同步失败，分组:{0},接口名称:{1}，接口地址{2}", yapiSaveParam.getMenu(), yapiSaveParam.getTitle(), yapiSaveParam.getPath());
+                            Notification error = notificationGroup.createNotification(message, NotificationType.ERROR);
                             Notifications.Bus.notify(error, project);
                         } else {
                             String url = yapiUrl + "/project/" + projectId + "/interface/api/cat_" + yapiResponse.getCatId();
                             this.setClipboard(url);
-                            Notification error = notificationGroup.createNotification("success ,url: " + url, NotificationType.INFORMATION);
+                            String message = MessageFormat.format("同步成功，分组:{0},接口名称:{1}，接口地址{2}", yapiSaveParam.getMenu(), yapiSaveParam.getTitle(), yapiSaveParam.getPath());
+                            Notification error = notificationGroup.createNotification(message, NotificationType.INFORMATION);
                             Notifications.Bus.notify(error, project);
                         }
                     } catch (Exception e1) {
-                        Notification error = notificationGroup.createNotification("sorry ,upload api error cause:" + e1, NotificationType.ERROR);
+                        String message = MessageFormat.format("同步失败，分组:{0},接口名称:{1}，接口地址{2}", yapiSaveParam.getMenu(), yapiSaveParam.getTitle(), yapiSaveParam.getPath());
+                        Notification error = notificationGroup.createNotification(message, NotificationType.ERROR);
                         Notifications.Bus.notify(error, project);
                     }
                 }
@@ -167,10 +168,16 @@ public class UploadToYapi extends AnAction {
                         }
                     }
                 }
-            } else {
-                yapiApiDTOS = buildJsonForYapi.actionPerformedList(e, attachUpload, returnClass);
             }
-            if (yapiApiDTOS != null) {
+            if (yapiApiDTOS.size() == 0) {
+                try {
+                    yapiApiDTOS = buildJsonForYapi.actionPerformedList(e, attachUpload, returnClass);
+                } catch (Exception ex) {
+                    Notification error = notificationGroup.createNotification("sorry," + ex.getMessage(), NotificationType.ERROR);
+                    Notifications.Bus.notify(error, project);
+                }
+            }
+            if (yapiApiDTOS != null && yapiApiDTOS.size() > 0) {
 
                 for (YapiApiDTO yapiApiDTO : yapiApiDTOS) {
                     YapiSaveParam yapiSaveParam = new YapiSaveParam(projectToken, yapiApiDTO.getTitle(), yapiApiDTO.getPath(), yapiApiDTO.getParams(), yapiApiDTO.getRequestBody(), yapiApiDTO.getResponse(), Integer.valueOf(projectId), yapiUrl, true, yapiApiDTO.getMethod(), yapiApiDTO.getDesc(), yapiApiDTO.getHeader());
@@ -187,19 +194,25 @@ public class UploadToYapi extends AnAction {
                         // 上传
                         YapiResponse yapiResponse = new UploadYapi().uploadSave(yapiSaveParam, attachUpload, project.getBasePath());
                         if (yapiResponse.getErrcode() != 0) {
-                            Notification error = notificationGroup.createNotification("sorry ,upload api error cause:" + yapiResponse.getErrmsg(), NotificationType.ERROR);
+                            String message = MessageFormat.format("同步失败，分组:{0},接口名称:{1}，接口地址{2}", yapiSaveParam.getMenu(), yapiSaveParam.getTitle(), yapiSaveParam.getPath());
+                            Notification error = notificationGroup.createNotification(message, NotificationType.ERROR);
                             Notifications.Bus.notify(error, project);
                         } else {
                             String url = yapiUrl + "/project/" + projectId + "/interface/api/cat_" + yapiResponse.getCatId();
                             this.setClipboard(url);
-                            Notification error = notificationGroup.createNotification("success ,url:  " + url, NotificationType.INFORMATION);
+                            String message = MessageFormat.format("同步成功，分组:{0},接口名称:{1}，接口地址{2}", yapiSaveParam.getMenu(), yapiSaveParam.getTitle(), yapiSaveParam.getPath());
+                            Notification error = notificationGroup.createNotification(message, NotificationType.INFORMATION);
                             Notifications.Bus.notify(error, project);
                         }
                     } catch (Exception e1) {
-                        Notification error = notificationGroup.createNotification("sorry ,upload api error cause:" + e1, NotificationType.ERROR);
+                        String message = MessageFormat.format("同步失败，分组:{0},接口名称:{1}，接口地址{2}", yapiSaveParam.getMenu(), yapiSaveParam.getTitle(), yapiSaveParam.getPath());
+                        Notification error = notificationGroup.createNotification(message, NotificationType.ERROR);
                         Notifications.Bus.notify(error, project);
                     }
                 }
+            } else {
+                Notification error = notificationGroup.createNotification("请选中需要同步的方法名或类名", NotificationType.WARNING);
+                Notifications.Bus.notify(error, project);
             }
         }
     }

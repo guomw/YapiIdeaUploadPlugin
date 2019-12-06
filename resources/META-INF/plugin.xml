@@ -1,29 +1,43 @@
 <idea-plugin>
-  <id>com.ucharm.YapiUpload</id>
-  <name>UcharmYapiUpload</name>
-  <version>1.0.0</version>
-  <vendor email="guomwchen@foxmail.com" url="http://www.guomw.com">Ucharm</vendor>
+    <id>com.ucharm.UcharmYapiUpload</id>
+    <name>UcharmYapiUpload</name>
+    <version>1.0.0</version>
+    <vendor email="guomwchen@foxmail.com" url="https://github.com/guomw/YapiIdeaUploadPlugin">Ucharm</vendor>
 
-  <description><![CDATA[
+    <description><![CDATA[
       upload api to yapi<br>
       <em>support dubbo api and api upload</em>
+      基于YapiIdeaUploadPlugin 插件基础上，进行二次开发扩展，支持swagger 注解
+      支持右键项目一键同步Controller文件接口
+      支持dto mock配置，
+      注解使用方式：
+      字段mock配置：@ApiModelProperty(example="@string")
+      接口名称：在controller的方法上添加 @ApiOperation("接口名称") or @ApiOperation(value="接口名称")
+      分组(菜单)名称配置:在controller头上添加 @Api(tags="groupName")
+      使用方式：
+      .idea/misc.xml 文件中 添加以下配置
+      <component name="yapi">
+        <option name="projectToken">yapi项目token</option>
+        <option name="projectId">项目id</option>
+        <option name="yapiUrl">http://yapi.xxxx.com</option>
+        <option name="projectType">api</option>
+      </component>
     ]]></description>
 
-  <change-notes>
-  </change-notes>
-  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-  <idea-version since-build="145.0"/>
-  <extensions defaultExtensionNs="com.intellij">
-    <!-- Add your extensions here -->
-  </extensions>
-  <actions>
-    <!-- Add your actions here -->
-    <action id="UcharmYapiUpload" class="com.ucharm.interaction.UploadToYapi" text="同步更新YAPI"
-            description="同步更新YAPI">
-      <add-to-group group-id="EditorLangPopupMenu" anchor="first"/>
-      <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
-      <keyboard-shortcut keymap="$default" first-keystroke="alt u"/>
-    </action>
-  </actions>
-  <depends>com.intellij.modules.java</depends>
+    <change-notes>
+    </change-notes>
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="145.0"/>
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+    <actions>
+        <!-- Add your actions here -->
+        <action id="UcharmYapiUpload" class="com.ucharm.interaction.UploadToYapi" text="同步更新YAPI"
+                description="同步更新YAPI">
+            <add-to-group group-id="EditorLangPopupMenu" anchor="first"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+    </actions>
+    <depends>com.intellij.modules.java</depends>
 </idea-plugin>
