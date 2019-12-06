@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>com.ucharm.UcharmYapiUpload</id>
+    <id>com.ucharm.YapiUpload</id>
     <name>UcharmYapiUpload</name>
     <version>1.0.0</version>
     <vendor email="guomwchen@foxmail.com" url="https://github.com/guomw/YapiIdeaUploadPlugin">Ucharm</vendor>
@@ -15,13 +15,6 @@
       接口名称：在controller的方法上添加 @ApiOperation("接口名称") or @ApiOperation(value="接口名称")
       分组(菜单)名称配置:在controller头上添加 @Api(tags="groupName")
       使用方式：
-      .idea/misc.xml 文件中 添加以下配置
-      <component name="yapi">
-        <option name="projectToken">yapi项目token</option>
-        <option name="projectId">项目id</option>
-        <option name="yapiUrl">http://yapi.xxxx.com</option>
-        <option name="projectType">api</option>
-      </component>
     ]]></description>
 
     <change-notes>
