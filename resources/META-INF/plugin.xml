@@ -1,8 +1,8 @@
 <idea-plugin>
-    <id>com.ucharm.YapiUpload</id>
-    <name>UcharmYapiUpload</name>
-    <version>1.0.0</version>
-    <vendor email="guomwchen@foxmail.com" url="https://github.com/guomw/YapiIdeaUploadPlugin">Ucharm</vendor>
+    <id>com.gmwframework.YapiUpload</id>
+    <name>GmwYapiUpload</name>
+    <version>1.0.1</version>
+    <vendor email="guomwchen@foxmail.com" url="https://github.com/guomw/YapiIdeaUploadPlugin">Guomw</vendor>
 
     <description><![CDATA[
       upload api to yapi<br>
@@ -26,7 +26,7 @@
     </extensions>
     <actions>
         <!-- Add your actions here -->
-        <action id="UcharmYapiUpload" class="com.ucharm.interaction.UploadToYapi" text="同步更新YAPI"
+        <action id="GmwYapiUpload" class="com.gmwframework.interaction.UploadToYapi" text="同步更新YAPI"
                 description="同步更新YAPI">
             <add-to-group group-id="EditorLangPopupMenu" anchor="first"/>
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
